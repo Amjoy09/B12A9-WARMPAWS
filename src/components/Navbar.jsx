@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-sm px-15">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -28,27 +28,34 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <NavLink>Home</NavLink>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink>Services</NavLink>
+              <NavLink to="/services">Services</NavLink>
             </li>
             <li>
               <NavLink>My Profile</NavLink>
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl border-rose-300 bg-cyan-900 text-rose-300 h-[60px]">
+        <Link
+          to="/"
+          className="btn btn-ghost text-xl border-rose-300 bg-cyan-900 text-rose-300 h-[60px]"
+        >
           🐹 WarmPaws🐶
-        </a>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink className="font-medium text-lg">Home</NavLink>
+            <NavLink to="/" className="font-medium text-lg">
+              Home
+            </NavLink>
           </li>
           <li>
-            <NavLink className="font-medium text-lg">Services</NavLink>
+            <NavLink to="/services" className="font-medium text-lg">
+              Services
+            </NavLink>
           </li>
           <li>
             <NavLink className="font-medium text-lg">My Profile</NavLink>
@@ -56,7 +63,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn text-xl bg-blue-200">Login</Link>
+        <Link className="btn text-white text-xl bg-orange-700">Login</Link>
       </div>
     </div>
   );
