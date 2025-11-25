@@ -34,7 +34,7 @@ const Navbar = () => {
               <NavLink to="/services">Services</NavLink>
             </li>
             <li>
-              <NavLink>My Profile</NavLink>
+              <NavLink to="/profile">My Profile</NavLink>
             </li>
           </ul>
         </div>
@@ -58,12 +58,16 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink className="font-medium text-lg">My Profile</NavLink>
+            <NavLink to="/profile" className="font-medium text-lg">
+              My Profile
+            </NavLink>
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn text-white text-xl bg-orange-700">Login</Link>
+        <Link to="/login" className="btn text-white text-xl bg-orange-700">
+          Login
+        </Link>
       </div>
     </div>
   );
