@@ -27,7 +27,7 @@ const PopularServices = () => {
           to="/services"
           className="text-xl font-semibold bg-fuchsia-700 text-white px-5 py-2 rounded-sm"
         >
-          View All
+          View All Services
         </Link>
       </div>
     </div>

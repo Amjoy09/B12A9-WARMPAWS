@@ -1,15 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { GrGoogle } from "react-icons/gr";
 import { Link } from "react-router";
+import { AuthContext } from "../provider/AuthProvider";
+import auth from "../firebase/firebase.config";
+import { updateProfile } from "firebase/auth";
 
 const RegisterPage = () => {
+  const { registerWithEmailPassword, user, setUser } = useContext(AuthContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const email = e.target.email.value;
+    const pass = e.target.password.value;
+    const name = e.target.name.value;
+    const photoUrl = e.target.photoUrl.value;
+
+    registerWithEmailPassword(email, pass)
+      .then((userCredential) => {
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: photoUrl,
+        })
+          .then(() => {
+            setUser(userCredential.user);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  console.log(user);
+
   return (
     <div className="py-10 bg-blue-500">
       <div className="md:w-4/12 w-8/12 border-2 mx-auto px-7 py-8 rounded-lg bg-gray-100">
         <h1 className="text-4xl font-bold text-center mb-7">Sign Up</h1>
 
-        <form className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <label className="text-xl font-semibold">Name</label>
           <input
             className="border border-gray-400 py-3 px-3 mb-4 rounded-sm"
@@ -28,7 +59,7 @@ const RegisterPage = () => {
           <input
             className="border border-gray-400 py-3 px-3 mb-4 rounded-sm"
             type="url"
-            name="url"
+            name="photoUrl"
             placeholder="Photo URL"
           />
           <label className="text-xl font-semibold">Password</label>
@@ -38,9 +69,12 @@ const RegisterPage = () => {
             name="password"
             placeholder="Type Password"
           />
-          <Link className="bg-blue-500 text-center text-white text-xl font-semibold py-3 rounded-sm">
+          <button
+            type="submit"
+            className="bg-blue-500 text-center text-white text-xl font-semibold py-3 rounded-sm"
+          >
             Sign Up
-          </Link>
+          </button>
           <p className="text-[18px] font-semibold text-center">
             Already Have an Account?{" "}
             <Link
