@@ -5,12 +5,14 @@ import { GrGoogle } from "react-icons/gr";
 import { Link, useLocation, useNavigate } from "react-router";
 import auth from "../firebase/firebase.config";
 import { AuthContext } from "../provider/AuthProvider";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const LoginPage = () => {
   const { setUser, handleGoogleSignin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,12 +62,26 @@ const LoginPage = () => {
           />
 
           <label className="text-xl font-semibold">Password</label>
-          <input
-            className="border border-gray-400 py-3 px-3 rounded-sm"
-            type="password"
-            name="password"
-            placeholder="Type Password"
-          />
+          <div className="relative flex">
+            <input
+              className="border border-gray-400 w-full py-3 mb-4 px-3 rounded-sm"
+              type={showPass ? "text" : "password"}
+              name="password"
+              placeholder="Type Password"
+            />
+
+            <button
+              onClick={() => {
+                setShowPass(!showPass);
+              }}
+            >
+              {showPass ? (
+                <IoMdEye size={26} className="absolute top-3 left-100" />
+              ) : (
+                <IoMdEyeOff size={26} className="absolute top-3 left-100" />
+              )}
+            </button>
+          </div>
           <button
             onClick={handleForget}
             className="text-lg font-semibold hover:underline cursor-pointer"

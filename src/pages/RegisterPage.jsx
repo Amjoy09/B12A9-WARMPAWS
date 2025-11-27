@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import auth from "../firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const RegisterPage = () => {
+  const [showPass, setShowPass] = useState(false);
   const { registerWithEmailPassword, setUser, handleGoogleSignin } =
     useContext(AuthContext);
 
@@ -89,13 +91,28 @@ const RegisterPage = () => {
             name="photoUrl"
             placeholder="Photo URL"
           />
+
           <label className="text-xl font-semibold">Password</label>
-          <input
-            className="border border-gray-400 py-3 mb-4 px-3 rounded-sm"
-            type="password"
-            name="password"
-            placeholder="Type Password"
-          />
+          <div className="relative flex">
+            <input
+              className="border border-gray-400 w-full py-3 mb-4 px-3 rounded-sm"
+              type={showPass ? "text" : "password"}
+              name="password"
+              placeholder="Type Password"
+            />
+
+            <button
+              onClick={() => {
+                setShowPass(!showPass);
+              }}
+            >
+              {showPass ? (
+                <IoMdEye size={26} className="absolute top-3 left-100" />
+              ) : (
+                <IoMdEyeOff size={26} className="absolute top-3 left-100" />
+              )}
+            </button>
+          </div>
           <button
             type="submit"
             className="bg-blue-500 text-center text-white text-xl font-semibold py-3 rounded-sm cursor-pointer"

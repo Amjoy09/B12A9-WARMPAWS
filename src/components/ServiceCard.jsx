@@ -1,9 +1,16 @@
 import React from "react";
 import { Link } from "react-router";
+import { motion } from "motion/react";
 
 const ServiceCard = ({ service }) => {
   return (
-    <div>
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{
+        scale: 1,
+        transition: { duration: 2 },
+      }}
+    >
       <div className="card bg-base-100 shadow-sm">
         <figure className="h-[250px]">
           <img src={service.image} alt="Winter Service for your Pet" />
@@ -33,7 +40,7 @@ const ServiceCard = ({ service }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
