@@ -4,9 +4,11 @@ import { Link } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import auth from "../firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
-  const { registerWithEmailPassword, user, setUser } = useContext(AuthContext);
+  const { registerWithEmailPassword, setUser, handleGoogleSignin } =
+    useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,6 +18,19 @@ const RegisterPage = () => {
     const name = e.target.name.value;
     const photoUrl = e.target.photoUrl.value;
 
+    const uppercase = /[A-Z]/;
+    const lowercase = /[a-z]/;
+
+    if (pass.length < 6) {
+      return toast("Less Than 6 Characters");
+    }
+    if (!uppercase.test(pass)) {
+      return toast("Need an Uppercase");
+    }
+    if (!lowercase.test(pass)) {
+      return toast("Need a Lowercase");
+    }
+
     registerWithEmailPassword(email, pass)
       .then((userCredential) => {
         updateProfile(auth.currentUser, {
@@ -24,6 +39,7 @@ const RegisterPage = () => {
         })
           .then(() => {
             setUser(userCredential.user);
+            return toast("Sign Up Successfully");
           })
           .catch((error) => {
             console.log(error);
@@ -33,7 +49,18 @@ const RegisterPage = () => {
         console.log(err);
       });
   };
-  console.log(user);
+
+  const googleSignup = () => {
+    handleGoogleSignin()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        return toast("Sign Up with Google successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="py-10 bg-blue-500">
@@ -71,7 +98,7 @@ const RegisterPage = () => {
           />
           <button
             type="submit"
-            className="bg-blue-500 text-center text-white text-xl font-semibold py-3 rounded-sm"
+            className="bg-blue-500 text-center text-white text-xl font-semibold py-3 rounded-sm cursor-pointer"
           >
             Sign Up
           </button>
@@ -84,10 +111,13 @@ const RegisterPage = () => {
               Login
             </Link>
           </p>
-          <Link className="text-center text-lg font-semibold border border-gray-400 py-2.5 px-3 mt-3 rounded-sm flex items-center justify-center gap-2 hover:bg-orange-500 hover:text-white hover:font-normal">
+          <button
+            onClick={googleSignup}
+            className="text-center text-lg font-semibold border border-gray-400 py-2.5 px-3 mt-3 rounded-sm flex items-center justify-center gap-2 hover:bg-orange-500 hover:text-white hover:font-normal cursor-pointer"
+          >
             <FcGoogle size={24} />
             Login With Google
-          </Link>
+          </button>
         </form>
       </div>
     </div>

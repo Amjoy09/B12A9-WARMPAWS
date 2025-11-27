@@ -1,13 +1,16 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrGoogle } from "react-icons/gr";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import auth from "../firebase/firebase.config";
 import { AuthContext } from "../provider/AuthProvider";
 
 const LoginPage = () => {
-  const { setUser, user } = useContext(AuthContext);
+  const { setUser, handleGoogleSignin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,12 +21,28 @@ const LoginPage = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
+        navigate(location.state);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  console.log(user);
+
+  const googleSignin = () => {
+    handleGoogleSignin()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        navigate(location.state ? location.state : "/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleForget = () => {
+    navigate(`/forget/${email}`);
+  };
 
   return (
     <div className="py-10 bg-blue-500">
@@ -33,6 +52,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <label className="text-xl font-semibold">Email</label>
           <input
+            onChange={(e) => setEmail(e.target.value)}
             className="border border-gray-400 py-3 px-3 mb-4 rounded-sm"
             type="email"
             name="email"
@@ -46,19 +66,25 @@ const LoginPage = () => {
             name="password"
             placeholder="Type Password"
           />
-          <Link className="text-lg font-semibold hover:underline">
+          <button
+            onClick={handleForget}
+            className="text-lg font-semibold hover:underline cursor-pointer"
+          >
             Forget Password?
-          </Link>
+          </button>
           <button
             type="submit"
-            className="bg-blue-500 text-center text-white text-xl font-semibold py-3 mt-3 rounded-sm"
+            className="bg-blue-500 text-center text-white text-xl font-semibold py-3 mt-3 rounded-sm cursor-pointer"
           >
             Login
           </button>
-          <Link className="text-center text-lg font-semibold border border-gray-400 py-2.5 px-3 mt-3 rounded-sm flex items-center justify-center gap-2 hover:bg-orange-500 hover:text-white hover:font-normal">
+          <button
+            onClick={googleSignin}
+            className="text-center text-lg font-semibold border border-gray-400 py-2.5 px-3 mt-3 rounded-sm flex items-center justify-center gap-2 hover:bg-orange-500 hover:text-white hover:font-normal cursor-pointer"
+          >
             <FcGoogle size={24} />
             Login With Google
-          </Link>
+          </button>
           <p className="text-[18px] font-semibold text-center">
             Don't Have an Account?{" "}
             <Link

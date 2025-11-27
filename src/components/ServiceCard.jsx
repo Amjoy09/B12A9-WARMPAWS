@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const ServiceCard = ({ service }) => {
   return (
@@ -23,9 +24,12 @@ const ServiceCard = ({ service }) => {
               </span>
               <span className="px-1.5 rounded-r-lg"> {service.price}</span>
             </div>
-            <button className="bg-lime-700 text-white px-6 rounded-md py-2 text-xl font-semibold cursor-pointer">
+            <Link
+              to={`/details/${service.serviceId}`}
+              className="bg-lime-700 text-white px-6 rounded-md py-2 text-xl font-semibold cursor-pointer"
+            >
               View Details
-            </button>
+            </Link>
           </div>
         </div>
       </div>

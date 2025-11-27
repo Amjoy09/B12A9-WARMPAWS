@@ -1,9 +1,15 @@
 import React, { useContext } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
+import { signOut } from "firebase/auth";
+import auth from "../firebase/firebase.config";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
+
+  const handleSignout = () => {
+    signOut(auth);
+  };
   return (
     <div className="navbar bg-base-100 shadow-sm px-15">
       <div className="navbar-start">
@@ -68,7 +74,10 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user ? (
-          <button className="btn text-white text-xl bg-orange-700">
+          <button
+            onClick={handleSignout}
+            className="btn text-white text-xl bg-orange-700"
+          >
             Logout
           </button>
         ) : (

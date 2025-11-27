@@ -6,6 +6,9 @@ import Services from "../pages/Services";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MyProfile from "../pages/MyProfile";
+import PrivateRoute from "./PrivateRoute";
+import ServiceDetails from "../pages/ServiceDetails";
+import ForgetPassword from "../pages/ForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +35,24 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <MyProfile></MyProfile>,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/details/:myId",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <ServiceDetails></ServiceDetails>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/forget/:email",
+        element: <ForgetPassword></ForgetPassword>,
       },
     ],
   },
