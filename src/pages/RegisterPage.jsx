@@ -24,13 +24,13 @@ const RegisterPage = () => {
     const lowercase = /[a-z]/;
 
     if (pass.length < 6) {
-      return toast("Less Than 6 Characters");
+      return toast("Password must be at least 6 characters!");
     }
     if (!uppercase.test(pass)) {
-      return toast("Need an Uppercase");
+      return toast("Password must contain at least one uppercase letter!");
     }
     if (!lowercase.test(pass)) {
-      return toast("Need a Lowercase");
+      return toast("Password must contain at least one lowercase letter!");
     }
 
     registerWithEmailPassword(email, pass)
@@ -41,10 +41,11 @@ const RegisterPage = () => {
         })
           .then(() => {
             setUser(userCredential.user);
-            return toast("Sign Up Successfully");
+            return toast("Sign Up Successful!");
           })
           .catch((error) => {
             console.log(error);
+            return toast("Failed to update profile. Please try again!");
           });
       })
       .catch((err) => {

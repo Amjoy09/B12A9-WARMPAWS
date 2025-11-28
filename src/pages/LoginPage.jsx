@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import auth from "../firebase/firebase.config";
 import { AuthContext } from "../provider/AuthProvider";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
 
 const LoginPage = () => {
   const { setUser, handleGoogleSignin } = useContext(AuthContext);
@@ -23,10 +24,13 @@ const LoginPage = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
-        navigate(location.state);
+        toast("Login Successful!");
+        const redirectPath = location.state?.from || "/";
+        navigate(redirectPath, { replace: true });
       })
       .catch((error) => {
         console.log(error);
+        toast("Login failed! Please check your email or password.");
       });
   };
 
@@ -35,10 +39,13 @@ const LoginPage = () => {
       .then((result) => {
         const user = result.user;
         setUser(user);
-        navigate(location.state ? location.state : "/");
+        toast("Google Login Successful!");
+        const redirectPath = location.state?.from || "/";
+        navigate(redirectPath, { replace: true });
       })
       .catch((err) => {
         console.log(err);
+        toast("Google Login failed!");
       });
   };
 
@@ -48,6 +55,7 @@ const LoginPage = () => {
 
   return (
     <div className="py-10 bg-blue-500">
+      <ToastContainer position="top-center" />
       <div className="md:w-4/12 w-8/12 border-2 mx-auto px-7 py-8 rounded-lg bg-gray-100">
         <h1 className="text-4xl font-bold text-center mb-7">Login</h1>
 
@@ -112,6 +120,7 @@ const LoginPage = () => {
           </p>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

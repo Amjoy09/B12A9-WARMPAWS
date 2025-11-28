@@ -39,7 +39,7 @@ const ForgetPassword = () => {
           type="submit"
           className="bg-black text-center text-white text-xl font-semibold py-3 rounded-sm cursor-pointer"
         >
-          Login
+          Reset
         </button>
       </form>
     </div>
