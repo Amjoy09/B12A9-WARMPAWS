@@ -92,7 +92,7 @@ const ServiceDetails = () => {
       {isOpen && (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-3 w-4/12 mx-auto border border-gray-400 rounded-lg px-10 pb-18 pt-12 bg-gray-100 mb-10 mt-1"
+          className="flex flex-col gap-3 md:w-4/12 w-6/12 mx-auto border border-gray-400 rounded-lg px-10 pb-18 pt-12 bg-gray-100 mb-10 mt-1"
         >
           <label className="text-xl font-semibold">Name</label>
           <input
