@@ -47,7 +47,7 @@ const ServiceDetails = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-5 p-17">
+      <div className="flex flex-col md:flex-row items-center gap-5 p-17">
         <img
           className="w-5/12 h-105 rounded-lg border-4"
           src={findResult?.image}
